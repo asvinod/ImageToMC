@@ -1,0 +1,10 @@
+Pillow
+pyairtable
+polars
+amulet-core
+beautifulsoup4 
+lxml
+flask
+flask-wtf
+flask-uploads
+python-dotenv
