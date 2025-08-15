@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Image to Minecraft World</title>
+</head>
+<body>
+    <h1>Upload Image & Minecraft World</h1>
+    <form method="POST" enctype="multipart/form-data">
+        {{ form.hidden_tag() }}
+
+        <p>
+            <label>Select your image:</label><br>
+            {{ form.photo() }}
+        </p>
+        <p>
+            <label>Select your zipped Minecraft world:</label><br>
+            {{ form.world() }}
+        </p>
+        <p>{{ form.submit() }}</p>
+    </form>
+
+    {% if file_url %}
+        <p>Uploaded image: <a href="{{ file_url }}">{{ file_url }}</a></p>
+    {% endif %}
+
+    {% if modified_world_url %}
+        <p>Download modified world: <a href="{{ modified_world_url }}">{{ modified_world_url }}</a></p>
+    {% endif %}
+</body>
+</html>
