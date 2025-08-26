@@ -1,4 +1,6 @@
 from PIL import Image
+import numpy as np
 
-img = Image.open("images/john.png").convert("RGB")
-print(img.size)
+value = np.zeros((16, 16, 16), dtype=np.uint32)
+value[0][0][0] = 5
+print(value)

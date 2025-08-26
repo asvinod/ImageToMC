@@ -8,3 +8,4 @@ flask
 flask-wtf
 flask-uploads
 python-dotenv
+numpy
