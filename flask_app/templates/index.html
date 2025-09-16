@@ -76,16 +76,38 @@
     </style>
 </head>
 <body>
-    <div style="width: 100vw; height: 100vh; position: relative; background: rgba(155, 93, 57, 0.5); overflow: hidden">
+    <div style="width: 100vw; height: 100vh; position: relative; background: rgba(97, 55, 31); overflow: hidden">
         <div style="width: 1280px; height: 98px; left: 0px; top: 47px; position: absolute; background: #8FCA5C"></div>
         <div class="pixelify title" style="width: 341px; height: 75px; left: 469px; top: 61px; position: absolute;">ImageToMC<br/></div>
         <div class="pixelify subtitle" style="left: 85px; top: 5px; position: absolute;">How To use (Mac)</div>
-        <div style="width: 426px; height: 47px; left: 427px; top: 0px; position: absolute; background: #70B237; border: 2px black solid"></div>
-        <div style="width: 427px; height: 47px; left: 853px; top: 0px; position: absolute; background: #70B237; border: 2px black solid"></div>
-        <div style="width: 427px; height: 47px; left: 0px; top: 0px; position: absolute; background: #70B237; border: 2px black solid"></div>
-        <div class="pixelify menu" style="left: 132px; top: 5px; position: absolute;">How To use </div>
+        <div style="width: 426px; height: 47px; left: 427px; top: 0px; position: absolute; background: #70b237; border: 2px black solid"></div>
+        <a href = "https://github.com/asvinod/ImageToMC" target="_blank">
+            <div style="width: 427px; height: 47px; left: 853px; top: 0px; position: absolute; background: #70B237; border: 2px black solid"></div>
+        </a>
+        <div style="width: 427px; height: 47px; left: 0px; top: 0px; position: absolute; cursor: pointer; background: #70b237; border: 2px black solid"; cursor:pointer;" onclick="document.getElementById('howtoModal').style.display='block'">
+            <div class="pixelify menu" style="left: 132px; top: 5px; position: absolute; cursor: pointer;">How To use </div>          
+        </div>
+
+        <div id="howtoModal" style="display:none; position:fixed; z-index:1000; left:0; top:0; width:100vw; height:100vh; background:rgba(0,0,0,0.5);">
+            <div style="background:#fff; margin:10% auto; padding:20px; border-radius:8px; width:300px; position:relative;">
+                <span onclick="document.getElementById('howtoModal').style.display='none'" 
+                    style="position:absolute; top:10px; right:16px; cursor:pointer; font-size:20px;">&times;</span>
+                <ol style="margin-left: 1em;">
+                <li>If you are creating your own world, select that world, and click "Edit"</li>
+                <li>Click "Open World Folder"</li>
+                <li>Compress your world</li>
+                <li>Drag image on top box</li>
+                <li>Drag zip file on bottom box</li>
+                <li>Download ZIP file, place into World Folder</li>
+                <li>Unzip, and reload Select World (click Back and "Single Player" if you need to)</li>
+                </ol>
+            </div>
+        </div>
+
         <div class="pixelify menu" style="left: 568px; top: 5px; position: absolute;">Examples<br/></div>
-        <div class="pixelify menu" style="left: 948px; top: 5px; position: absolute;">How I Made This</div>
+        <a href = "https://github.com/asvinod/ImageToMC">
+            <div class="pixelify menu" style="left: 948px; top: 5px; position: absolute;">How I Made This</div>
+        </a>
 
         <!-- Upload Form with custom file drop areas -->
         <form class="upload-form" method="POST" enctype="multipart/form-data" style="background: none; box-shadow: none; padding: 0; border-radius: 0; left: 0; top: 0; width: 100vw; position: static;">
@@ -147,6 +169,9 @@
         </script>
 
         <div id="result-buttons" style="width: 100vw; display: flex; flex-direction: column; align-items: center; position: absolute; left: 0; top: 880px; gap: 16px;">
+            {% if file_url %}
+            <a href="{{ file_url }}" class="pixelify result-btn" style="background: #4e8c2b; color: #fff; font-size: 22px; padding: 14px 36px; border-radius: 8px; text-decoration: none; margin-top: 0; display: inline-block; border: none; text-align: center;">View Uploaded Image</a>
+            {% endif %}
             {% if modified_world_url %}
             <a href="{{ modified_world_url }}" class="pixelify result-btn" style="background: #35701a; color: #fff; font-size: 22px; padding: 14px 36px; border-radius: 8px; text-decoration: none; margin-top: 0; display: inline-block; border: none; text-align: center;">Download Modified World</a>
             {% endif %}
