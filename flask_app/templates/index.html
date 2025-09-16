@@ -89,24 +89,26 @@
         </div>
 
         <div id="howtoModal" style="display:none; position:fixed; z-index:1000; left:0; top:0; width:100vw; height:100vh; background:rgba(0,0,0,0.5);">
-            <div style="background:#fff; margin:10% auto; padding:20px; border-radius:8px; width:300px; position:relative;">
-                <span onclick="document.getElementById('howtoModal').style.display='none'" 
-                    style="position:absolute; top:10px; right:16px; cursor:pointer; font-size:20px;">&times;</span>
-                <ol style="margin-left: 1em;">
-                <li>If you are creating your own world, select that world, and click "Edit"</li>
-                <li>Click "Open World Folder"</li>
-                <li>Compress your world</li>
-                <li>Drag image on top box</li>
-                <li>Drag zip file on bottom box</li>
-                <li>Download ZIP file, place into World Folder</li>
-                <li>Unzip, and reload Select World (click Back and "Single Player" if you need to)</li>
-                </ol>
-            </div>
+                                    <div style="background: url('/static/grassblock.jpg') center center / cover no-repeat; margin:10% auto; padding:0; border-radius:16px; width:350px; height:350px; position:relative; box-shadow:0 4px 24px rgba(0,0,0,0.3);">
+                                            <span onclick="document.getElementById('howtoModal').style.display='none'" 
+                                                    style="position:absolute; top:10px; right:16px; cursor:pointer; font-size:20px; color:#333; z-index:2;">&times;</span>
+                                            <div style="background: rgba(255,255,255,0.85); border-radius: 12px; position: absolute; top: 25px; left: 25px; right: 25px; bottom: 25px; padding: 20px; z-index: 1; overflow-y: auto; box-sizing: border-box;">
+                                                <ol style="font-family: 'Courier', sans-serif; margin:0; padding-left:1.2em;">
+                                                    <li style="margin-bottom: 4px;">If you are creating your own world, select that world, and click &quot;Edit&quot;</li>
+                                                    <li style="margin-bottom: 4px;">Click &quot;Open World Folder&quot;</li>
+                                                    <li style="margin-bottom: 4px;">Compress your world</li>
+                                                    <li style="margin-bottom: 4px;">Drag image on top box</li>
+                                                    <li style="margin-bottom: 4px;">Drag zip file on bottom box</li>
+                                                    <li style="margin-bottom: 4px;">Download ZIP file, place into World Folder</li>
+                                                    <li style="margin-bottom: 4px;">Unzip, and reload Select World (click Back and &quot;Single Player&quot; if you need to)</li>
+                                                </ol>
+                                            </div>
+                                    </div>
         </div>
 
         <div class="pixelify menu" style="left: 568px; top: 5px; position: absolute;">Examples<br/></div>
-        <a href = "https://github.com/asvinod/ImageToMC">
-            <div class="pixelify menu" style="left: 948px; top: 5px; position: absolute;">How I Made This</div>
+        <a href="https://github.com/asvinod/ImageToMC" target="_blank" style="left: 948px; top: 5px; position: absolute; text-decoration: none;">
+            <div class="pixelify menu">How I Made This</div>
         </a>
 
         <!-- Upload Form with custom file drop areas -->
@@ -169,9 +171,6 @@
         </script>
 
         <div id="result-buttons" style="width: 100vw; display: flex; flex-direction: column; align-items: center; position: absolute; left: 0; top: 880px; gap: 16px;">
-            {% if file_url %}
-            <a href="{{ file_url }}" class="pixelify result-btn" style="background: #4e8c2b; color: #fff; font-size: 22px; padding: 14px 36px; border-radius: 8px; text-decoration: none; margin-top: 0; display: inline-block; border: none; text-align: center;">View Uploaded Image</a>
-            {% endif %}
             {% if modified_world_url %}
             <a href="{{ modified_world_url }}" class="pixelify result-btn" style="background: #35701a; color: #fff; font-size: 22px; padding: 14px 36px; border-radius: 8px; text-decoration: none; margin-top: 0; display: inline-block; border: none; text-align: center;">Download Modified World</a>
             {% endif %}
