@@ -32,13 +32,10 @@ honey_block,241,146,17
 pumpkin,198,118,24
 quartz_block,236,230,223
 end_stone_bricks,218,224,162
-stonecutter,106,90,78
 repeating_command_block,128,109,166
 coal_ore,116,116,116
 cyan_concrete_powder,36,147,157
 redstone_lamp,95,54,30
-jigsaw,62,53,63
-brewing_stand,123,101,81
 crafting_table,129,105,70
 smoker,102,91,75
 cyan_glazed_terracotta,52,118,125
@@ -126,7 +123,6 @@ respawn_anchor,76,23,150
 gray_wool,62,68,71
 jungle_log,149,109,70
 purple_glazed_terracotta,109,48,152
-spawner,36,46,62
 smooth_stone,158,158,158
 magma_block,142,63,31
 light_blue_glazed_terracotta,94,164,208

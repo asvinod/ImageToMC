@@ -10,6 +10,7 @@ from tqdm import tqdm
 import math
 import os
 from multiprocessing import Pool
+import cProfile
 
 def image_to_chunk(img, point):
     width, height = img.size
@@ -27,6 +28,8 @@ def image_to_chunk(img, point):
     chunk.blocks.add_sub_chunk(cy, empty)
 
     section = chunk.blocks.get_sub_chunk(cy)
+    
+    test_dict = {} 
 
     for w in range(16):
         for h in range(16):
@@ -42,6 +45,8 @@ def image_to_chunk(img, point):
             block_name = fetchblock((r, g, b), color_conversion)
             block = Block("minecraft", block_name)
             idx = chunk.block_palette.get_add_block(block)
+
+            test_dict[block_name] = idx
  
             x_in_chunk = world_x % 16
             z_in_chunk = world_z % 16
@@ -72,25 +77,25 @@ def image_to_mc(img_path, mc_path):
     color_conversion = csv_to_dict("csv/filtered_blocks_cleaned.csv")
 
     chunk_cache = {}
-    x_chunks = math.ceil(width / 16)
-    z_chunks = math.ceil(height / 16)
+    x_chunks = math.ceil(width / 16) - 1
+    z_chunks = math.ceil(height / 16) - 1
     
     start_time = time.perf_counter()
 
     tasks = [(img_path, (i, j)) for i in range(x_chunks) for j in range(z_chunks)]
 
-    with Pool(8) as p:
+    with Pool() as p:
         results = list(p.map(image_to_chunk_wrapper, tasks))
 
     for chunk in results:
-        print(chunk)
         level.put_chunk(chunk, dimension)
     level.save()
     level.close()
     end_time = time.perf_counter()
     print("Chunk loading completed for", img.size, "pixel image in", end_time - start_time)
 
-if __name__ == "__main__":
-    img_path = "/Users/ashwin/imagetomc/ImageToMC/flask_app/uploads/1024by1024.jpg"
-    mc_path = "/Users/ashwin/Library/Application Support/minecraft/saves/test"
-    image_to_mc(img_path, mc_path)
+#if __name__ == "__main__":
+#    img_path = "/Users/ashwin/imagetomc/ImageToMC/flask_app/uploads/diamond.jpg"
+#    mc_path = "/Users/ashwin/Library/Application Support/minecraft/saves/test"
+#    image_to_mc(img_path, mc_path)
+#    #cProfile.run(image_to_mc(img_path, mc_path))

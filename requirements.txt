@@ -9,3 +9,4 @@ flask-wtf
 flask-uploads
 python-dotenv
 numpy
+tqdm

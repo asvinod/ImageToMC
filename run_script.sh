@@ -16,5 +16,6 @@ python3 -m venv venv
 source venv/bin/activate
 pip install -r requirements.txt
 
-python3 flask_app/generate_blocks.py
+python3 flask_app/app.py
+#python3 flask_app/generate_blocks.py
 #python3 test.py

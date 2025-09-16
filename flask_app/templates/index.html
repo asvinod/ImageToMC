@@ -1,30 +1,156 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
     <title>Image to Minecraft World</title>
+    <!-- Google Fonts for Pixelify Sans -->
+    <link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+        }
+        .pixelify {
+            font-family: 'Pixelify Sans', sans-serif;
+            font-weight: 400;
+            word-wrap: break-word;
+        }
+        .title {
+            color: black;
+            font-size: 64px;
+        }
+        .subtitle {
+            color: rgba(0, 0, 0, 0.5);
+            font-size: 32px;
+        }
+        .menu {
+            color: black;
+            font-size: 32px;
+        }
+        .drop-label {
+            color: white;
+            font-size: 64px;
+        }
+        .upload-form {
+            position: absolute;
+            left: 385px;
+            top: 340px;
+            width: 510px;
+            background: rgba(0,0,0,0.05);
+            padding: 32px 24px;
+            border-radius: 16px;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+            z-index: 10;
+        }
+        .upload-form label {
+            font-size: 20px;
+            color: #333;
+            font-family: 'Pixelify Sans', sans-serif;
+        }
+        .upload-form input[type="file"] {
+            margin-bottom: 16px;
+        }
+        .upload-form input[type="submit"] {
+            font-family: 'Pixelify Sans', sans-serif;
+            font-size: 20px;
+            background: #8FCA5C;
+            border: none;
+            padding: 10px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+        .upload-form input[type="submit"]:hover {
+            background: #70B237;
+        }
+        .upload-status {
+            position: absolute;
+            left: 385px;
+            top: 500px;
+            width: 510px;
+            background: rgba(0,0,0,0.03);
+            padding: 16px 24px;
+            border-radius: 12px;
+            font-family: 'Pixelify Sans', sans-serif;
+            font-size: 18px;
+        }
+    </style>
 </head>
 <body>
-    <h1>Upload Image & Minecraft World</h1>
-    <form method="POST" enctype="multipart/form-data">
-        {{ form.hidden_tag() }}
+    <div style="width: 100vw; height: 100vh; position: relative; background: rgba(155, 93, 57, 0.5); overflow: hidden">
+        <div style="width: 1280px; height: 98px; left: 0px; top: 47px; position: absolute; background: #8FCA5C"></div>
+        <div class="pixelify title" style="width: 341px; height: 75px; left: 469px; top: 61px; position: absolute;">ImageToMC<br/></div>
+        <div class="pixelify subtitle" style="left: 85px; top: 5px; position: absolute;">How To use (Mac)</div>
+        <div style="width: 426px; height: 47px; left: 427px; top: 0px; position: absolute; background: #70B237; border: 2px black solid"></div>
+        <div style="width: 427px; height: 47px; left: 853px; top: 0px; position: absolute; background: #70B237; border: 2px black solid"></div>
+        <div style="width: 427px; height: 47px; left: 0px; top: 0px; position: absolute; background: #70B237; border: 2px black solid"></div>
+        <div class="pixelify menu" style="left: 132px; top: 5px; position: absolute;">How To use </div>
+        <div class="pixelify menu" style="left: 568px; top: 5px; position: absolute;">Examples<br/></div>
+        <div class="pixelify menu" style="left: 948px; top: 5px; position: absolute;">How I Made This</div>
 
-        <p>
-            <label>Select your image:</label><br>
-            {{ form.photo() }}
-        </p>
-        <p>
-            <label>Select your zipped Minecraft world:</label><br>
-            {{ form.world() }}
-        </p>
-        <p>{{ form.submit() }}</p>
-    </form>
+        <!-- Upload Form with custom file drop areas -->
+        <form class="upload-form" method="POST" enctype="multipart/form-data" style="background: none; box-shadow: none; padding: 0; border-radius: 0; left: 0; top: 0; width: 100vw; position: static;">
+            {{ form.hidden_tag() }}
+            <!-- Image Upload Box -->
+            <label for="photo-input" id="image-drop-area" class="pixelify drop-label" style="width: 725px; height: 254px; left: 277px; top: 219px; position: absolute; background: #C28340; display: flex; align-items: center; justify-content: center; flex-direction: column; cursor: pointer; border: 2px dashed #fff; transition: background 0.2s;">
+                <span id="image-drop-text">Drop Image here<br/>or click to select</span>
+                {{ form.photo(class_='file-input', id='photo-input', style='display:none') }}
+                <span id="image-file-name" style="font-size: 20px; color: #fff; margin-top: 10px;"></span>
+            </label>
+            <!-- World Upload Box -->
+            <label for="world-input" id="world-drop-area" class="pixelify drop-label" style="width: 725px; height: 254px; left: 277px; top: 516px; position: absolute; background: #C28340; display: flex; align-items: center; justify-content: center; flex-direction: column; cursor: pointer; border: 2px dashed #fff; transition: background 0.2s;">
+                <span id="world-drop-text">Drop World Zip File<br/>or click to select</span>
+                {{ form.world(class_='file-input', id='world-input', style='display:none') }}
+                <span id="world-file-name" style="font-size: 20px; color: #fff; margin-top: 10px;"></span>
+            </label>
+            <div style="width: 100vw; display: flex; justify-content: center; position: absolute; left: 0; top: 800px;">
+                <p>{{ form.submit(class_='pixelify', style='font-size: 24px; background: #8FCA5C; border: none; padding: 12px 32px; border-radius: 8px; cursor: pointer;') }}</p>
+            </div>
+        </form>
 
-    {% if file_url %}
-        <p>Uploaded image: <a href="{{ file_url }}">{{ file_url }}</a></p>
-    {% endif %}
+        <script>
+        // Helper for drag-and-drop and file name display
+        function setupDropArea(dropAreaId, inputId, fileNameId, dropTextId) {
+            const dropArea = document.getElementById(dropAreaId);
+            const fileInput = document.getElementById(inputId);
+            const fileName = document.getElementById(fileNameId);
+            const dropText = document.getElementById(dropTextId);
 
-    {% if modified_world_url %}
-        <p>Download modified world: <a href="{{ modified_world_url }}">{{ modified_world_url }}</a></p>
-    {% endif %}
+            // Show file name when selected
+            fileInput.addEventListener('change', function() {
+                if (fileInput.files.length > 0) {
+                    fileName.textContent = fileInput.files[0].name;
+                } else {
+                    fileName.textContent = '';
+                }
+            });
+
+            // Drag events
+            dropArea.addEventListener('dragover', function(e) {
+                e.preventDefault();
+                dropArea.style.background = '#b88a3a';
+            });
+            dropArea.addEventListener('dragleave', function(e) {
+                e.preventDefault();
+                dropArea.style.background = '#C28340';
+            });
+            dropArea.addEventListener('drop', function(e) {
+                e.preventDefault();
+                dropArea.style.background = '#C28340';
+                if (e.dataTransfer.files.length > 0) {
+                    fileInput.files = e.dataTransfer.files;
+                    fileInput.dispatchEvent(new Event('change'));
+                }
+            });
+        }
+        setupDropArea('image-drop-area', 'photo-input', 'image-file-name', 'image-drop-text');
+        setupDropArea('world-drop-area', 'world-input', 'world-file-name', 'world-drop-text');
+        </script>
+
+        <div id="result-buttons" style="width: 100vw; display: flex; flex-direction: column; align-items: center; position: absolute; left: 0; top: 880px; gap: 16px;">
+            {% if modified_world_url %}
+            <a href="{{ modified_world_url }}" class="pixelify result-btn" style="background: #35701a; color: #fff; font-size: 22px; padding: 14px 36px; border-radius: 8px; text-decoration: none; margin-top: 0; display: inline-block; border: none; text-align: center;">Download Modified World</a>
+            {% endif %}
+        </div>
+    </div>
 </body>
 </html>

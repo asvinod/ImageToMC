@@ -48,9 +48,7 @@ def csv_to_dict(csv):
         key = (row[1], row[2], row[3])
         result[key] = val
     #print(result)
-    return result
-print(clean_csv("csv/blocks_and_rgbs.csv"))
-        
+    return result        
 
 
 

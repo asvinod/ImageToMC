@@ -1,5 +1,4 @@
 
-# Import necessary modules from Flask and other libraries
 from flask import Flask, render_template, url_for, send_from_directory
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileRequired, FileAllowed
@@ -8,31 +7,24 @@ from werkzeug.utils import secure_filename
 from dotenv import load_dotenv
 load_dotenv()
 import os, zipfile, shutil
-# Import the function that converts an image to a Minecraft world
-from minecraft.generate_blocks import image_to_mc 
+from generate_blocks import image_to_mc 
 
 
-# Initialize the Flask app
+# Initialize Flask app
 app = Flask(__name__)
-# Set a secret key for CSRF protection (required by Flask-WTF)
 app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
-# Set the upload folder path
 app.config['UPLOAD_FOLDER'] = os.path.join(app.root_path, 'uploads')
-# Ensure the upload folder exists
 os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
 
 
-# Define a form for uploading an image and a Minecraft world zip file
+# Form for uploading image & MC World (Zip File)
 class UploadForm(FlaskForm):
-    # Image file field (jpg, png, jpeg, gif)
     photo = FileField(
         validators=[FileAllowed(['jpg','png','jpeg','gif']), FileRequired()]
     )
-    # Minecraft world zip file field
     world = FileField(
         validators=[FileAllowed(['zip']), FileRequired()]
     )
-    # Submit button
     submit = SubmitField('Upload')
 
 
