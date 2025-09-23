@@ -17,7 +17,7 @@ app.config['UPLOAD_FOLDER'] = os.path.join(app.root_path, 'uploads')
 app.config['DEFAULTS_FOLDER'] = os.path.join(app.root_path, 'defaults')
 
 os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
-os.makedirs(app.config['DEFAULTS_FOLDER'], exist_ok=True)
+os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
 
 class UploadForm(FlaskForm):
     photo = FileField(
