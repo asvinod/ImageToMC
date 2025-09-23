@@ -85,7 +85,11 @@ def upload():
 @app.route('/uploads/<filename>')
 def get_file(filename):
     return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
+    
+@app.route('/examples')
+def get_examples():
+    return render_template('examples.html')
 
 # Run the Flask app in debug mode if this script is executed directly
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(port=8000, debug=True)

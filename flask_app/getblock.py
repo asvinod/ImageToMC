@@ -7,7 +7,6 @@ def dist(p1, p2):
 # Function to get the closest block based on RGB distance
 def fetchblock(target, blocks):
     def distance(pair):
-        #print(pair)
         return dist(pair[0], target)
     
     # Find and return the block with the closest RGB match

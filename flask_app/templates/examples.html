@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Examples - ImageToMC</title>
+  <link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: rgba(97, 55, 31, 1); 
+      font-family: 'Pixelify Sans', sans-serif;
+    }
+
+    .title {
+      font-size: 64px;
+      color: #000;
+      text-align: center;
+      margin: 0;
+      padding: 20px;
+      background: #70B237; 
+      border-bottom: 2px solid #000;
+    }
+
+    .examples-container {
+      max-width: 1200px;
+      margin: 40px auto;
+      padding: 20px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 40px;
+      justify-content: center;
+    }
+
+    .example-box {
+      width: 500px;
+      background: #C28340;
+      border: 2px solid #fff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 16px;
+      border-radius: 8px;
+    }
+
+    .example-box img {
+      width: 100%;
+      border: 2px dashed #fff;
+    }
+
+    .meta {
+      margin-top: 12px;
+      background: #fff;
+      color: #000;
+      padding: 12px;
+      width: 100%;
+      border-radius: 6px;
+      font-size: 18px;
+      line-height: 1.4;
+    }
+
+    .meta .label {
+      font-size: 20px;
+      text-decoration: underline;
+      margin-bottom: 4px;
+      display: block;
+    }
+  </style>
+</head>
+<body>
+  <div class="title">Examples</div>
+
+  <div class="examples-container">
+    <div class="example-box">
+      <img src="static/example1.png" alt="Original Image" />
+      <div class="meta">
+        <a href="https://learnandsupport.getolympus.com/learn-center/photography-tips/landscapes-nature/high-res-and-the-om-5-in-patagonia", target="_blank">
+          <span class="label">Original Image</span>
+        </a>
+        1028 × 1028 pixels<br>
+        Note: Render distance set to 128 chunks using mods
+      </div>
+    </div>
+
+    <div class="example-box">
+      <img src="static/example2.png" alt="Original Image" />
+      <div class="meta">
+        <a href="https://best-wallpaper.net/Earth-and-the-Moon_iphone_wallpaper.html", target="_blank">
+          <span class="label">Original Image</span>
+        <a>
+        800 × 503 pixels
+      </div>
+    </div>
+  </div>
+</body>
+</html>
