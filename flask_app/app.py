@@ -10,78 +10,94 @@ import os, zipfile, shutil
 from generate_blocks import image_to_mc 
 
 
-# Initialize Flask app
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
+
 app.config['UPLOAD_FOLDER'] = os.path.join(app.root_path, 'uploads')
+app.config['DEFAULTS_FOLDER'] = os.path.join(app.root_path, 'defaults')
+
 os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
+os.makedirs(app.config['DEFAULTS_FOLDER'], exist_ok=True)
 
-
-# Form for uploading image & MC World (Zip File)
 class UploadForm(FlaskForm):
     photo = FileField(
         validators=[FileAllowed(['jpg','png','jpeg','gif']), FileRequired()]
     )
     world = FileField(
-        validators=[FileAllowed(['zip']), FileRequired()]
+        validators=[FileAllowed(['zip'])]
     )
     submit = SubmitField('Upload')
 
-
-# Main route for uploading files and processing the image/world
-@app.route("/", methods=['GET','POST'])
+@app.route("/", methods=['GET', 'POST'])
 def upload():
     form = UploadForm()
     file_url = None
     modified_world_url = None
 
-    # When the form is submitted and valid
     if form.validate_on_submit():
-        # Save the uploaded image file
+        # --- Save uploaded image ---
         img_file = form.photo.data
         img_filename = secure_filename(img_file.filename)
         img_path = os.path.join(app.config['UPLOAD_FOLDER'], img_filename)
         img_file.save(img_path)
         file_url = url_for('get_file', filename=img_filename)
 
-        # Save the uploaded Minecraft world zip file
+        # --- Handle world zip (uploaded or default) ---
         world_file = form.world.data
-        world_zip_filename = secure_filename(world_file.filename)
-        world_zip_path = os.path.join(app.config['UPLOAD_FOLDER'], world_zip_filename)
-        world_file.save(world_zip_path)
+        if not world_file or world_file.filename == "":
+            # Use default world zip (never delete this)
+            world_zip_path = os.path.join(app.config['DEFAULTS_FOLDER'], "defaultsuperflat.zip")
+            delete_after = False
+        else:
+            # Save uploaded world zip into uploads folder
+            filename = secure_filename(world_file.filename)
+            world_zip_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+            world_file.save(world_zip_path)
+            delete_after = True
 
-        # Prepare a temporary directory to extract the world zip
+        # --- Extract world zip ---
         temp_world_dir = os.path.join(app.config['UPLOAD_FOLDER'], 'world_tmp')
         if os.path.exists(temp_world_dir):
-            shutil.rmtree(temp_world_dir)  # Remove if it already exists
+            shutil.rmtree(temp_world_dir)
         os.makedirs(temp_world_dir, exist_ok=True)
-        # Extract the world zip file
+
         with zipfile.ZipFile(world_zip_path, 'r') as zip_ref:
             zip_ref.extractall(temp_world_dir)
 
-        # Find the world folder inside the extracted directory
-        folders = [f for f in os.listdir(temp_world_dir) if os.path.isdir(os.path.join(temp_world_dir, f))]
-        if not folders:
-            raise ValueError("No world folder found inside zip!")
-        world_folder = os.path.join(temp_world_dir, folders[0])
+        # --- Find valid world folder by checking for level.dat ---
+        world_folder = None
+        for f in os.listdir(temp_world_dir):
+            candidate = os.path.join(temp_world_dir, f)
+            if os.path.isdir(candidate) and os.path.exists(os.path.join(candidate, "level.dat")):
+                world_folder = candidate
+                break
 
-        # Call the function to convert the image to Minecraft blocks in the world
+        if not world_folder:
+            shutil.rmtree(temp_world_dir)
+            if delete_after:
+                os.remove(world_zip_path)
+            raise ValueError("No valid Minecraft world folder found in zip!")
+
+        # --- Run your image → MC function ---
         image_to_mc(img_path, world_folder)
 
-        # Zip the modified world folder for download
+        # --- Re-zip modified world ---
         modified_zip_path = os.path.join(app.config['UPLOAD_FOLDER'], 'modified_world.zip')
-        shutil.make_archive(modified_zip_path.replace('.zip',''), 'zip', world_folder)
+        shutil.make_archive(modified_zip_path.replace('.zip', ''), 'zip', world_folder)
         modified_world_url = url_for('get_file', filename='modified_world.zip')
 
-        # Clean up temporary files
+        # --- Cleanup ---
         shutil.rmtree(temp_world_dir)
-        os.remove(world_zip_path)
+        if delete_after:
+            os.remove(world_zip_path)
 
-    # Render the upload form and show download links if available
-    return render_template('index.html', form=form, file_url=file_url, modified_world_url=modified_world_url)
+    return render_template(
+        'index.html',
+        form=form,
+        file_url=file_url,
+        modified_world_url=modified_world_url
+    )
 
-
-# Route to serve uploaded and generated files
 @app.route('/uploads/<filename>')
 def get_file(filename):
     return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
@@ -90,6 +106,5 @@ def get_file(filename):
 def get_examples():
     return render_template('examples.html')
 
-# Run the Flask app in debug mode if this script is executed directly
 if __name__ == "__main__":
     app.run(port=8000, debug=True)
